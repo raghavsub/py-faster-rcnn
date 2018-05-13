@@ -43,7 +43,7 @@ class RobustL1LossLayerTestCase(unittest.TestCase):
         netFile = robust_l1_loss_layer_net_file()
         self.net = caffe.Net(netFile, caffe.TEST)
         os.remove(netFile)
-    
+
     def test_far(self):
         pred = np.ones([3, 3])
         label = 5. * np.ones([3, 3])
@@ -57,8 +57,6 @@ class RobustL1LossLayerTestCase(unittest.TestCase):
         actual_diff = -1./3 * np.ones([3, 3])
         self.assertTrue(abs(loss - actual_loss) < EPSILON)
         self.assertTrue((abs(diff - actual_diff) < EPSILON).all())
-    
-    def test_close(self):
         pred = np.ones([3, 3])
         label = 1.5 * np.ones([3, 3])
         self.net.blobs['pred'].data[...] = pred
@@ -71,7 +69,7 @@ class RobustL1LossLayerTestCase(unittest.TestCase):
         actual_diff = np.zeros([3, 3])
         self.assertTrue(abs(loss - actual_loss) < EPSILON)
         self.assertTrue((abs(diff - actual_diff) < EPSILON).all())
-    
+
     def test_mixed(self):
         pred = np.ones([3, 3])
         label = np.outer([-2, 0, 2], np.ones(3))
@@ -85,7 +83,7 @@ class RobustL1LossLayerTestCase(unittest.TestCase):
         actual_diff = np.outer([1./3, 0, 0], np.ones(3))
         self.assertTrue(abs(loss - actual_loss) < EPSILON)
         self.assertTrue((abs(diff - actual_diff) < EPSILON).all())
-    
+
     def test_label_diff(self):
         pred = np.ones([3, 3])
         label = np.outer([-2, 0, 2], np.ones(3))

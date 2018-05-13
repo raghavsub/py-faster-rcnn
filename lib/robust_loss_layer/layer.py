@@ -13,7 +13,7 @@ class RobustL1LossLayer(caffe.Layer):
         parser = argparse.ArgumentParser(description='FullImInputLayer')
         parser.add_argument('--width', default=0, type=float)
         args = parser.parse_args(argStr.split())
-        return args 
+        return args
 
     def setup(self, bottom, top):
         param = RobustL1LossLayer.parse_args(self.param_str)
