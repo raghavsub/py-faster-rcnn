@@ -7,13 +7,14 @@
 
 """Compute minibatch blobs for training a Fast R-CNN network."""
 
+import random
 import numpy as np
 import numpy.random as npr
 import cv2
 from fast_rcnn.config import cfg
 from utils.blob import prep_im_for_blob, im_list_to_blob
 
-def get_minibatch(roidb, num_classes):
+def get_minibatch(roidb, num_classes, gt_jitter):
     """Given a roidb, construct a minibatch sampled from it."""
     num_images = len(roidb)
     # Sample random scales to use for each image in this batch
@@ -38,6 +39,34 @@ def get_minibatch(roidb, num_classes):
         gt_boxes = np.empty((len(gt_inds), 5), dtype=np.float32)
         gt_boxes[:, 0:4] = roidb[0]['boxes'][gt_inds, :] * im_scales[0]
         gt_boxes[:, 4] = roidb[0]['gt_classes'][gt_inds]
+
+        # apply gt_jitter
+        r = lambda: 2 * random.random() * gt_jitter - gt_jitter
+        height, width = im_blob.shape[2], im_blob.shape[3]
+        for i, gt_box in enumerate(gt_boxes):
+            jitterX = r() * (gt_box[2] - gt_box[0])
+            jitterY = r() * (gt_box[3] - gt_box[1])
+            jitterW = r() * (gt_box[2] - gt_box[0])
+            jitterH = r() * (gt_box[3] - gt_box[1])
+            gt_box[0] += jitterX
+            gt_box[1] += jitterY
+            gt_box[2] += jitterX
+            gt_box[3] += jitterY
+            gt_box[0] -= jitterW / 2
+            gt_box[1] -= jitterH / 2
+            gt_box[2] += jitterW / 2
+            gt_box[3] += jitterH / 2
+            gt_box[0:4] = [int(round(val)) for val in gt_box[0:4]]
+            if gt_box[0] < 0:
+              gt_box[0] = 0
+            if gt_box[1] < 0:
+              gt_box[1] = 0
+            if gt_box[2] >= width:
+              gt_box[2] = width-1
+            if gt_box[3] >= height:
+              gt_box[3] = height-1
+            gt_boxes[i] = gt_box
+
         blobs['gt_boxes'] = gt_boxes
         blobs['im_info'] = np.array(
             [[im_blob.shape[2], im_blob.shape[3], im_scales[0]]],

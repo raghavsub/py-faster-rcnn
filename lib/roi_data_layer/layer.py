@@ -60,7 +60,7 @@ class RoIDataLayer(caffe.Layer):
         else:
             db_inds = self._get_next_minibatch_inds()
             minibatch_db = [self._roidb[i] for i in db_inds]
-            return get_minibatch(minibatch_db, self._num_classes)
+            return get_minibatch(minibatch_db, self._num_classes, self._gt_jitter)
 
     def set_roidb(self, roidb):
         """Set the roidb to be used by this layer during training."""
@@ -87,6 +87,7 @@ class RoIDataLayer(caffe.Layer):
         layer_params = yaml.load(self.param_str_)
 
         self._num_classes = layer_params['num_classes']
+        self._gt_jitter = layer_params['gt_jitter']
 
         self._name_to_top_map = {}
 
@@ -192,5 +193,5 @@ class BlobFetcher(Process):
         while True:
             db_inds = self._get_next_minibatch_inds()
             minibatch_db = [self._roidb[i] for i in db_inds]
-            blobs = get_minibatch(minibatch_db, self._num_classes)
+            blobs = get_minibatch(minibatch_db, self._num_classes, self._gt_jitter)
             self._queue.put(blobs)
