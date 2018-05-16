@@ -51,6 +51,7 @@ class SolverWrapper(object):
             text_format.Merge(f.read(), self.solver_param)
 
         self.solver.net.layers[0].set_roidb(roidb)
+        self.solver.test_nets[0].layers[0].set_roidb(roidb)
 
     def snapshot(self):
         """Take a snapshot of the network after unnormalizing the learned

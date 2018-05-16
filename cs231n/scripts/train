@@ -13,7 +13,7 @@ main()
 
     time ./tools/train_net.py \
         --gpu 0 \
-        --iters 35000 \
+        --iters 70000 \
         --solver cs231n/models/"$prefix"/solver.prototxt \
         --weights data/faster_rcnn_models/VGG16_faster_rcnn_final.caffemodel \
         --cfg cs231n/cfgs/cs231n.yml \

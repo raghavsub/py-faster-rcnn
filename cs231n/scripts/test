@@ -11,7 +11,7 @@ main()
         exit 1
     fi
 
-    net=output/cs231n/coco_2014_valminusminival/"$prefix"_iter_35000.caffemodel
+    net=output/cs231n/coco_2014_valminusminival/"$prefix"_iter_70000.caffemodel
     if [[ ! -f "$net" ]] ; then
         echo "Not trained"
         exit 1

@@ -1,16 +1,14 @@
-train_net: "cs231n/models/vanilla_0/train.prototxt"
+net: "cs231n/models/vanilla_0/train.prototxt"
 base_lr: 0.001
+momentum: 0.9
 lr_policy: "step"
-gamma: 0.1
 stepsize: 50000
+gamma: 0.1
+weight_decay: 0.0005
+iter_size: 2
+snapshot: 0
+snapshot_prefix: "vanilla_0"
 display: 20
 average_loss: 100
-# iter_size: 1
-momentum: 0.9
-weight_decay: 0.0005
-# We disable standard caffe solver snapshotting and implement our own snapshot
-# function
-snapshot: 0
-# We still use the snapshot prefix, though
-snapshot_prefix: "vanilla_0"
-iter_size: 2
+test_iter: 100
+test_interval: 200
