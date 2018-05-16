@@ -1,0 +1,28 @@
+#! /usr/bin/env bash
+
+main()
+{
+    lossfunc="$1" # vanilla or robust
+    jitter="$2" # as a percent
+
+    prefix="$lossfunc"_"$jitter"
+    if [[ ! -d cs231n/models/"$prefix" ]] ; then
+        echo "Bad arguments"
+        exit 1
+    fi
+
+    net=output/cs231n/coco_2014_valminusminival/"$prefix"_iter_35000.caffemodel
+    if [[ ! -f "$net" ]] ; then
+        echo "Not trained"
+        exit 1
+    fi
+
+    time ./tools/test_net.py \
+        --gpu 0 \
+        --def cs231n/models/"$prefix"/test.prototxt \
+        --net "$net" \
+        --cfg cs231n/cfgs/cs231n.yml \
+        --imdb coco_2014_minival
+}
+
+main "$@"

@@ -1,0 +1,24 @@
+#! /usr/bin/env bash
+
+main()
+{
+    lossfunc="$1" # vanilla or robust
+    jitter="$2" # as a percent
+
+    prefix="$lossfunc"_"$jitter"
+    if [[ ! -d cs231n/models/"$prefix" ]] ; then
+        echo "Bad arguments"
+        exit 1
+    fi
+
+    time ./tools/train_net.py \
+        --gpu 0 \
+        --iters 35000 \
+        --solver cs231n/models/"$prefix"/solver.prototxt \
+        --weights data/faster_rcnn_models/VGG16_faster_rcnn_final.caffemodel \
+        --cfg cs231n/cfgs/cs231n.yml \
+        --imdb coco_2014_valminusminival \
+        | tee cs231n/logs/"$prefix".log
+}
+
+main "$@"
