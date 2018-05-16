@@ -18,7 +18,7 @@ main()
         --weights data/faster_rcnn_models/VGG16_faster_rcnn_final.caffemodel \
         --cfg cs231n/cfgs/cs231n.yml \
         --imdb coco_2014_valminusminival \
-        | tee cs231n/logs/"$prefix".log
+        2>&1 | tee cs231n/logs/"$prefix".log
 }
 
 main "$@"
