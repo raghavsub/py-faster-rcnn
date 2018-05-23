@@ -15,7 +15,7 @@ def main():
         print('Bad arguments')
         sys.exit(1)
 
-    net = os.path.join('output', 'cs231n', 'coco_2014_minival',
+    net = os.path.join('output', 'cs231n', 'coco_2014_valminusminival',
                        prefix + '_iter_70000.caffemodel')
     if not os.path.exists(net):
         print('Not trained')
@@ -48,7 +48,7 @@ def main():
             return 'RPN BBox Loss'
         if label == 'rpn_cls_loss':
             return 'RPN Class Loss'
-    
+
     fig, ax = plt.subplots(2, 2)
     for i, label in enumerate(train_losses):
         r = i / 2
