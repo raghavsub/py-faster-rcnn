@@ -25,7 +25,7 @@ def main():
 
     train_losses = defaultdict(list)
     val_losses = defaultdict(list)
-    with open(log_file, 'rb') as f:
+    with open(log_file, 'r') as f:
         for line in f:
             if 'net output' in line:
                 loss = float(line.split()[10])
@@ -59,7 +59,7 @@ def main():
         ax[r, c].set_xlim(xmin=0)
         ax[r, c].set_ylabel(_pp_label(label))
         ax[r, c].grid()
-    ax[0, 1].legend(loc=1, fontsize='xx-small')
+    ax[0, 1].legend(loc=1, fontsize='x-small')
     plt.tight_layout()
     plt.subplots_adjust(top=0.92)
     fig.suptitle('{} Loss, {}% Jitter'.format(lossfunc.capitalize(), jitter))

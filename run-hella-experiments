@@ -16,6 +16,8 @@ main()
     ./cs231n/scripts/test vanilla 10
     ./cs231n/scripts/test vanilla 20
     ./cs231n/scripts/test vanilla 30
+
+    ./cs231n/scripts/plot_maps
 }
 
 main
