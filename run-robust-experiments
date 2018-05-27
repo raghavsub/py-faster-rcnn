@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+
+main()
+{
+    ./cs231n/scripts/train robust 0
+    ./cs231n/scripts/train robust 10
+    ./cs231n/scripts/train robust 20
+    ./cs231n/scripts/train robust 30
+
+    ./cs231n/scripts/plot_log robust 0
+    ./cs231n/scripts/plot_log robust 10
+    ./cs231n/scripts/plot_log robust 20
+    ./cs231n/scripts/plot_log robust 30
+
+    ./cs231n/scripts/test robust 0
+    ./cs231n/scripts/test robust 10
+    ./cs231n/scripts/test robust 20
+    ./cs231n/scripts/test robust 30
+
+    ./cs231n/scripts/plot_maps
+}
+
+main
