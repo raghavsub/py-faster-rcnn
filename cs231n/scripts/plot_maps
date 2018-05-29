@@ -18,9 +18,11 @@ def main():
     if metric == '5':
         map_idx = 1
         map_name = 'mAP@.5'
+        map_baseline = 42.7
     if metric == '59':
         map_idx = 0
         map_name = 'mAP@[.5, .95]'
+        map_baseline = 21.9
 
     fig, ax = plt.subplots()
     
@@ -47,16 +49,27 @@ def main():
             with open(results_file, 'rb') as f:
                 E = pickle.load(f)
 
-            maps.append(E.stats[map_idx] * 10)
+            map_ = E.stats[map_idx] * 100
+
+            if mode == 'both':
+                print('{} loss, {}% jitter, {} = {}'.format(lossfunc.capitalize(),
+                      jitter, map_name, map_))
+
+            maps.append(map_)
 
         ax.plot([0, 10, 20, 30], maps, label=lossfunc.capitalize())
-        ax.set_xlabel('% Jitter')
-        ax.set_xlim(xmin=0, xmax=30)
-        ax.set_xticks([0, 10, 20, 30])
-        ax.set_ylabel(map_name)
-        ax.set_ylim(ymin=0)
-        ax.grid()
-        ax.legend()
+        
+    if mode == 'both':
+        print('Baseline, {} = {}'.format(map_name, map_baseline))
+
+    ax.axhline(y=map_baseline, color='k', linestyle='--', label='Baseline (no jitter)')
+    ax.set_xlabel('% Jitter')
+    ax.set_xlim(xmin=0, xmax=30)
+    ax.set_xticks([0, 10, 20, 30])
+    ax.set_ylabel(map_name)
+    ax.set_ylim(ymin=0)
+    ax.grid()
+    ax.legend(loc=3)
 
     fig.savefig(os.path.join('cs231n', 'plots',
                              '{}_{}_maps.png'.format(mode, metric)))

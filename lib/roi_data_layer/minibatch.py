@@ -58,13 +58,13 @@ def get_minibatch(roidb, num_classes, gt_jitter):
             gt_box[3] += jitterH / 2
             gt_box[0:4] = [int(round(val)) for val in gt_box[0:4]]
             if gt_box[0] < 0:
-              gt_box[0] = 0
+                gt_box[0] = 0
             if gt_box[1] < 0:
-              gt_box[1] = 0
+                gt_box[1] = 0
             if gt_box[2] >= width:
-              gt_box[2] = width-1
+                gt_box[2] = width-1
             if gt_box[3] >= height:
-              gt_box[3] = height-1
+                gt_box[3] = height-1
             gt_boxes[i] = gt_box
 
         blobs['gt_boxes'] = gt_boxes
