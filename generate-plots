@@ -1,0 +1,22 @@
+#! /usr/bin/env bash
+
+main()
+{
+    ./cs231n/scripts/plot_log vanilla 0
+    ./cs231n/scripts/plot_log vanilla 10
+    ./cs231n/scripts/plot_log vanilla 20
+    ./cs231n/scripts/plot_log vanilla 30
+
+    ./cs231n/scripts/plot_log robust 0
+    ./cs231n/scripts/plot_log robust 10
+    ./cs231n/scripts/plot_log robust 20
+    ./cs231n/scripts/plot_log robust 30
+
+    ./cs231n/scripts/plot_maps vanilla 5
+    ./cs231n/scripts/plot_maps both 5
+
+    ./cs231n/scripts/plot_maps vanilla 59
+    ./cs231n/scripts/plot_maps both 59
+}
+
+main

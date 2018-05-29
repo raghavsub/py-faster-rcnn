@@ -467,7 +467,7 @@ layer {
   bottom: "rpn_bbox_outside_weights"
   top: "rpn_loss_bbox"
   python_param {
-    module: "lib.robust_loss_layer.layer"
+    module: "robust_loss_layer.layer"
     layer: "RobustL1LossLayer"
     param_str: "--width=0."
   }
@@ -674,7 +674,7 @@ layer {
   bottom: "bbox_outside_weights"
   top: "loss_bbox"
   python_param {
-    module: "lib.robust_loss_layer.layer"
+    module: "robust_loss_layer.layer"
     layer: "RobustL1LossLayer"
     param_str: "--width=0."
   }

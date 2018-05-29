@@ -6,10 +6,25 @@ import matplotlib.pyplot as plt
 import sys
 
 def main():
+    mode = sys.argv[1] # vanilla, robust, or both
+    if mode == 'vanilla':
+        lossfuncs = ['vanilla']
+    if mode == 'robust':
+        lossfuncs = ['robust']
+    if mode == 'both':
+        lossfuncs = ['vanilla', 'robust']
+
+    metric = sys.argv[2] # 5 or 59
+    if metric == '5':
+        map_idx = 1
+        map_name = 'mAP@.5'
+    if metric == '59':
+        map_idx = 0
+        map_name = 'mAP@[.5, .95]'
 
     fig, ax = plt.subplots()
     
-    for lossfunc in ['vanilla', 'robust']:
+    for lossfunc in lossfuncs:
 
         maps = []
 
@@ -32,18 +47,19 @@ def main():
             with open(results_file, 'rb') as f:
                 E = pickle.load(f)
 
-            maps.append(E.stats[1])
+            maps.append(E.stats[map_idx] * 10)
 
         ax.plot([0, 10, 20, 30], maps, label=lossfunc.capitalize())
         ax.set_xlabel('% Jitter')
         ax.set_xlim(xmin=0, xmax=30)
         ax.set_xticks([0, 10, 20, 30])
-        ax.set_ylabel('mAP@0.5')
+        ax.set_ylabel(map_name)
         ax.set_ylim(ymin=0)
         ax.grid()
         ax.legend()
 
-    fig.savefig(os.path.join('cs231n', 'plots', 'maps.png'))
+    fig.savefig(os.path.join('cs231n', 'plots',
+                             '{}_{}_maps.png'.format(mode, metric)))
 
 if __name__ == '__main__':
     main()
