@@ -3,9 +3,9 @@
 main()
 {
     lossfunc="$1" # vanilla or robust
-    jitter="$2" # as a percent
+    num="$2" # as a percent
 
-    prefix="$lossfunc"_"$jitter"
+    prefix="$lossfunc"_"$num"
     if [[ ! -d cs231n/models/"$prefix" ]] ; then
         echo "Bad arguments"
         exit 1

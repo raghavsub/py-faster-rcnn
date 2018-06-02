@@ -40,9 +40,9 @@ def robust_l1_loss_layer_net_file():
 class RobustL1LossLayerTestCase(unittest.TestCase):
 
     def setUp(self):
-        netFile = robust_l1_loss_layer_net_file()
-        self.net = caffe.Net(netFile, caffe.TEST)
-        os.remove(netFile)
+        net_file = robust_l1_loss_layer_net_file()
+        self.net = caffe.Net(net_file, caffe.TEST)
+        os.remove(net_file)
 
     def test_far(self):
         pred = np.ones([3, 3])

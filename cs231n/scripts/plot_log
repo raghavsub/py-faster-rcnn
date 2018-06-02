@@ -8,9 +8,9 @@ import sys
 
 def main():
     lossfunc = sys.argv[1] # vanilla or robust
-    jitter = sys.argv[2] # as a percent
+    num = sys.argv[2] # as a percent
 
-    prefix = lossfunc + '_' + jitter
+    prefix = lossfunc + '_' + num
     if not os.path.exists(os.path.join('cs231n', 'models', prefix)):
         print('Bad arguments')
         sys.exit(1)
@@ -24,7 +24,6 @@ def main():
     log_file = os.path.join('cs231n', 'logs', prefix + '.log')
 
     train_losses = defaultdict(list)
-    val_losses = defaultdict(list)
     with open(log_file, 'r') as f:
         for line in f:
             if 'net output' in line:
@@ -33,11 +32,8 @@ def main():
                 train_val = line.split()[4]
                 if train_val == 'Train':
                     train_losses[label].append(loss)
-                elif train_val == 'Test':
-                    val_losses[label].append(loss)
 
     train_iters = 20 * np.arange(len(train_losses[train_losses.keys()[0]]))
-    val_iters = 200 * np.arange(len(val_losses[val_losses.keys()[0]]))
 
     def _pp_label(label):
         if label == 'loss_bbox':
@@ -53,16 +49,17 @@ def main():
     for i, label in enumerate(train_losses):
         r = i / 2
         c = i % 2
-        ax[r, c].plot(train_iters, train_losses[label], label='Train')
-        ax[r, c].plot(val_iters, val_losses[label], label='Val')
+        ax[r, c].plot(train_iters, train_losses[label])
         ax[r, c].set_xlabel('Iteration')
         ax[r, c].set_xlim(xmin=0)
         ax[r, c].set_ylabel(_pp_label(label))
         ax[r, c].grid()
-    ax[0, 1].legend(loc=1, fontsize='x-small')
     plt.tight_layout()
     plt.subplots_adjust(top=0.92)
-    fig.suptitle('{} Loss, {}% Jitter'.format(lossfunc.capitalize(), jitter))
+    if lossfunc == 'vanilla':
+        fig.suptitle('Vanilla Loss, {}% Jitter'.format(num))
+    if lossfunc == 'robust':
+        fig.suptitle('Robust Loss (Width = {}%), 20% Jitter'.format(num))
     fig.savefig(os.path.join('cs231n', 'plots', prefix + '_loss.png'))
 
 if __name__ == '__main__':

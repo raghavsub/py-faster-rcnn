@@ -1,0 +1,71 @@
+#! /usr/bin/env python
+
+import os
+import cPickle as pickle
+import matplotlib.pyplot as plt
+import sys
+
+def main():
+    lossfunc = sys.argv[1] # vanilla or robust
+    metric = sys.argv[2] # 5 or 59
+    if metric == '5':
+        map_idx = 1
+        map_name = 'mAP@.5'
+        map_baseline = 42.7
+    if metric == '59':
+        map_idx = 0
+        map_name = 'mAP@[.5, .95]'
+        map_baseline = 21.9
+
+    fig, ax = plt.subplots()
+    
+    maps = []
+
+    for num in ['0', '10', '20', '30']:
+        prefix = lossfunc + '_' + num
+        if not os.path.exists(os.path.join('cs231n', 'models', prefix)):
+            print('Bad arguments')
+            sys.exit(1)
+
+        net = os.path.join('output', 'cs231n', 'coco_2014_valminusminival',
+                           prefix + '_iter_70000.caffemodel')
+        if not os.path.exists(net):
+            print('Not trained')
+            sys.exit(1)
+
+        results_file = os.path.join('output', 'cs231n', 'coco_2014_minival',
+                                    prefix + '_iter_70000',
+                                    'detection_results.pkl')
+
+        with open(results_file, 'rb') as f:
+            E = pickle.load(f)
+
+        map_ = E.stats[map_idx] * 100
+        if lossfunc == 'vanilla':
+            print('Vanilla Loss, {}% Jitter, {} = {}'.format(
+                  num, map_name, map_))
+        if lossfunc == 'robust':
+            print('Robust Loss (Width = {}%), 20% Jitter, {} = {}'.format(
+                  num, map_name, map_))
+
+        maps.append(map_)
+
+    ax.plot([0, 10, 20, 30], maps, label=lossfunc.capitalize())
+        
+    print('Baseline, {} = {}'.format(map_name, map_baseline))
+
+    ax.axhline(y=map_baseline, color='k', linestyle='--',
+               label='Baseline (no jitter)')
+    ax.set_xlabel('% Jitter')
+    ax.set_xlim(xmin=0, xmax=30)
+    ax.set_xticks([0, 10, 20, 30])
+    ax.set_ylabel(map_name)
+    ax.set_ylim(ymin=0)
+    ax.grid()
+    ax.legend(loc=3)
+
+    fig.savefig(os.path.join('cs231n', 'plots',
+                             '{}_{}_maps.png'.format(lossfunc, metric)))
+
+if __name__ == '__main__':
+    main()
