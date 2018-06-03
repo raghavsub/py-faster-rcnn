@@ -11,8 +11,8 @@ def main():
     yrobust_l1 = [robust_l1(item) for item in x]
     fig, ax = plt.subplots()
     ax.plot(x, yl1, color='k', label='L1 Loss')
-    ax.plot(x, yrobust_l1, color='r', label='Robust L1 Loss')
     ax.plot(x, ysmooth_l1, color='b', label='Smooth L1 Loss')
+    ax.plot(x, yrobust_l1, color='r', label='Robust L1 Loss')
     ax.set_xlabel('f(X) - y')
     ax.set_xlim(xmin=-0.5, xmax=0.5)
     plt.grid()

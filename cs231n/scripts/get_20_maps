@@ -8,18 +8,18 @@ import sys
 def main():
     
     for metric in ['5', '59']:
-        for prefix in ['vanilla_20', 'robust_0', 'robust_10', 'robust_20', 'robust_30']:
+        for prefix in ['vanilla_20', 'robust_0', 'robust_5', 'robust_10', 'robust_20']:
 
             if prefix == 'vanilla_20':
                 label = 'Smooth L1'
             if prefix == 'robust_0':
                 label = 'L1'
+            if prefix == 'robust_5':
+                label = 'Robust L1 (5%)'
             if prefix == 'robust_10':
                 label = 'Robust L1 (10%)'
             if prefix == 'robust_20':
                 label = 'Robust L1 (20%)'
-            if prefix == 'robust_30':
-                label = 'Robust L1 (30%)'
 
             if metric == '5':
                 map_idx = 1
