@@ -675,7 +675,7 @@ layer {
   top: "loss_bbox"
   python_param {
     module: "robust_loss_layer.layer"
-    layer: "RobustL1LossLayer"
+    layer: "RobustL1LossLayer2"
     param_str: "--widthxy=0.1 --widthwh=0.2"
   }
   loss_weight: 1
