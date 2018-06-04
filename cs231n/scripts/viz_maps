@@ -39,7 +39,10 @@ def main():
         with open(results_file, 'rb') as f:
             E = pickle.load(f)
 
-        maps.append(E.stats[map_idx] * 100)
+        map_ = E.stats[map_idx] * 100
+
+        maps.append(map_)
+        print('Vanilla Loss, {}% Jitter, {} = {}'.format(jitter, map_name, map_))
 
     ax.plot([0, 10, 20, 30], maps)
     ax.axhline(y=map_baseline, color='k', linestyle='--',
