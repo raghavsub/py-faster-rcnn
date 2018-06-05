@@ -1,0 +1,45 @@
+#! /usr/bin/env python
+
+import os
+os.environ['GLOG_minloglevel'] = '2'
+
+import caffe
+import cv2
+import matplotlib.pyplot as plt
+import shutil
+import sys
+
+from fast_rcnn.config import cfg
+
+from demo import demo
+
+IM_NAMES = ['000456.jpg', '000542.jpg', '001150.jpg', '001763.jpg', '004545.jpg']
+
+def main():
+    lossfunc = sys.argv[1]
+
+    if lossfunc == 'vanilla':
+        prefix = 'vanilla_20'
+    if lossfunc == 'robust':
+        prefix = 'robust_10'
+    
+    cfg.TEST.HAS_RPN = True
+    caffe.set_mode_gpu()
+    caffe.set_device(0)
+    cfg.GPU_ID = 0
+
+    prototxt = os.path.join('cs231n', 'models', prefix, 'test.prototxt')
+    caffemodel = os.path.join('output', 'cs231n', 'coco_2014_valminusminival',
+                              prefix + '_iter_70000.caffemodel')
+    net = caffe.Net(prototxt, caffemodel, caffe.TEST)
+
+    os.mkdir(os.path.join('cs231n', 'viz', lossfunc))
+
+    for im_name in IM_NAMES:
+        demo(lossfunc, net, im_name)
+
+    plt.show()
+
+
+if __name__ == '__main__':
+    main()
