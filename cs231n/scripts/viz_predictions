@@ -33,6 +33,7 @@ def main():
                               prefix + '_iter_70000.caffemodel')
     net = caffe.Net(prototxt, caffemodel, caffe.TEST)
 
+    shutil.rmtree(os.path.join('cs231n', 'viz', lossfunc))
     os.mkdir(os.path.join('cs231n', 'viz', lossfunc))
 
     for im_name in IM_NAMES:
