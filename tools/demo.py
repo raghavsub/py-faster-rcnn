@@ -37,6 +37,11 @@ CLASSES = ('__background__',
 
 def vis_detections(lossfunc, image_name, class_name, dets, thresh=0.5):
     """Draw detected bounding boxes."""
+    if lossfunc == 'vanilla':
+        label = 'Smooth L1 Loss'
+    if lossfunc == 'robust':
+        label = 'Robust L1 Loss (10%)'
+
     inds = np.where(dets[:, -1] >= thresh)[0]
     if len(inds) == 0:
         return
@@ -61,12 +66,9 @@ def vis_detections(lossfunc, image_name, class_name, dets, thresh=0.5):
         ax.text(bbox[0], bbox[1] - 2,
                 '{:s} {:.3f}'.format(class_name, score),
                 bbox=dict(facecolor='blue', alpha=0.5),
-                fontsize=14, color='white')
+                color='white')
 
-    ax.set_title(('{} detections with '
-                  'p({} | box) >= {:.1f}').format(class_name, class_name,
-                                                  thresh),
-                  fontsize=14)
+    ax.set_title('{}, {} Class'.format(label, class_name.capitalize()))
     plt.axis('off')
     plt.tight_layout()
     fig.savefig(os.path.join('cs231n', 'viz', lossfunc, '{}_{}.png'.format(
@@ -84,8 +86,6 @@ def demo(lossfunc, net, image_name):
     timer.tic()
     scores, boxes = im_detect(net, im)
     timer.toc()
-    print ('Detection took {:.3f}s for '
-           '{:d} object proposals').format(timer.total_time, boxes.shape[0])
 
     # Visualize detections for each class
     CONF_THRESH = 0.8

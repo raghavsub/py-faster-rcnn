@@ -48,7 +48,8 @@ def viz(im, box):
                  box[2] - box[0], box[3] - box[1],
                  fill=False, edgecolor='red', linewidth=3.5))
     plt.axis('off')
-    fig.savefig(os.path.join('cs231n', 'plots', 'viz.png'))
+    # fig.savefig(os.path.join('cs231n', 'plots', 'viz.png'))
+    fig.savefig(os.path.join('cs231n', 'big_plots', 'viz.eps'), format='eps', dpi=1000)
 
 if __name__ == '__main__':
     main()

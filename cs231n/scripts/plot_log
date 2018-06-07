@@ -57,9 +57,11 @@ def main():
     plt.tight_layout()
     plt.subplots_adjust(top=0.92)
     if lossfunc == 'vanilla':
-        fig.suptitle('Vanilla Loss, {}% Jitter'.format(num))
+        fig.suptitle('Smooth L1 Loss, {}% Jitter'.format(num))
     if lossfunc == 'robust':
-        fig.suptitle('Robust Loss (Width = {}%), 20% Jitter'.format(num))
+        fig.suptitle('Robust L1 Loss ({}%), 20% Jitter'.format(num))
+    if lossfunc == 'robust2':
+        fig.suptitle('Robust L1 Loss ({}% xy, {}% wh), 20% Jitter'.format(num[:2], num[2:]))
     fig.savefig(os.path.join('cs231n', 'plots', prefix + '_loss.png'))
 
 if __name__ == '__main__':

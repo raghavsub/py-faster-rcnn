@@ -11,17 +11,17 @@ def main():
         for prefix in ['vanilla_20', 'robust_0', 'robust_5', 'robust_10', 'robust_20', 'robust2_1020']:
 
             if prefix == 'vanilla_20':
-                label = 'Smooth L1'
+                label = 'Smooth L1 Loss'
             if prefix == 'robust_0':
                 label = 'L1'
             if prefix == 'robust_5':
-                label = 'Robust L1 (5%)'
+                label = 'Robust L1 Loss (5%)'
             if prefix == 'robust_10':
-                label = 'Robust L1 (10%)'
+                label = 'Robust L1 Loss (10%)'
             if prefix == 'robust_20':
-                label = 'Robust L1 (20%)'
+                label = 'Robust L1 Loss (20%)'
             if prefix == 'robust2_1020':
-                label = 'Robust L1 (10% xy, 20% wh)'
+                label = 'Robust L1 Loss (10% xy, 20% wh)'
 
             if metric == '5':
                 map_idx = 1
@@ -49,7 +49,7 @@ def main():
 
             map_ = E.stats[map_idx] * 100
 
-            print('{} Loss, 20% Jitter, {} = {}'.format(label, map_name, map_))
+            print('{}, 20% Jitter, {} = {}'.format(label, map_name, map_))
 
 if __name__ == '__main__':
     main()

@@ -42,21 +42,25 @@ def main():
         map_ = E.stats[map_idx] * 100
 
         maps.append(map_)
-        print('Vanilla Loss, {}% Jitter, {} = {}'.format(jitter, map_name, map_))
+        print('Smooth L1 Loss, {}% Jitter, {} = {}'.format(jitter, map_name, map_))
 
     ax.plot([0, 10, 20, 30], maps)
     ax.axhline(y=map_baseline, color='k', linestyle='--',
-               label='Baseline (no jitter)')
+               label='Baseline (No Jitter)')
     ax.set_xlabel('% Jitter')
     ax.set_xlim(xmin=0, xmax=30)
     ax.set_xticks([0, 10, 20, 30])
     ax.set_ylabel(map_name)
     ax.set_ylim(ymin=0)
+    ax.set_title('Smooth L1 Loss')
     ax.grid()
     ax.legend(loc=3)
 
-    fig.savefig(os.path.join('cs231n', 'plots',
-                             'vanilla_{}_maps.png'.format(metric)))
+    # fig.savefig(os.path.join('cs231n', 'plots',
+    #                          'vanilla_{}_maps.png'.format(metric)))
+    fig.savefig(os.path.join('cs231n', 'big_plots',
+                             'vanilla_{}_maps.eps'.format(metric)),
+                format='eps', dpi=1000)
 
 if __name__ == '__main__':
     main()

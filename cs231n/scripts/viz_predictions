@@ -39,8 +39,5 @@ def main():
     for im_name in IM_NAMES:
         demo(lossfunc, net, im_name)
 
-    plt.show()
-
-
 if __name__ == '__main__':
     main()

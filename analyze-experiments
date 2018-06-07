@@ -2,20 +2,22 @@
 
 main()
 {
-    ./cs231n/scripts/viz_annotated_im > /dev/null
+    # ./cs231n/scripts/viz_annotated_im
 
-    ./cs231n/scripts/graph_loss_functions
+    ./cs231n/scripts/plot_loss_functions
 
-    ./cs231n/scripts/plot_log vanilla 0
-    ./cs231n/scripts/plot_log vanilla 30
+    # ./cs231n/scripts/plot_log vanilla 0
+    # ./cs231n/scripts/plot_log vanilla 30
     
-    ./cs231n/scripts/viz_maps 5
-    ./cs231n/scripts/viz_maps 59
+    ./cs231n/scripts/plot_vanilla_maps 5
+    ./cs231n/scripts/plot_vanilla_maps 59
 
-    ./cs231n/scripts/get_20_maps
+    ./cs231n/scripts/print_jitter_maps
 
-    ./cs231n/scripts/viz_predictions vanilla
-    ./cs231n/scripts/viz_predictions robust
+    # ./cs231n/scripts/viz_predictions vanilla
+    # ./cs231n/scripts/viz_predictions robust
+
+    ./cs231n/scripts/plot_pr_curves
 }
 
 main

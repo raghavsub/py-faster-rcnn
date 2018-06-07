@@ -1,0 +1,52 @@
+#! /usr/bin/env python
+
+import os
+import numpy as np
+import cPickle as pickle
+import matplotlib.pyplot as plt
+import sys
+
+def main():
+
+    fig, ax = plt.subplots()
+
+    for lossfunc in 'l1', 'vanilla', 'robust':
+
+        if lossfunc == 'vanilla':
+            prefix = 'vanilla_20'
+            label = 'Smooth L1 Loss'
+        if lossfunc == 'robust':
+            prefix = 'robust_10'
+            label = 'Robust L1 Loss (10%)'
+        if lossfunc == 'l1':
+            prefix = 'robust_0'
+            label = 'L1 Loss' 
+
+        results_file = os.path.join('output', 'cs231n', 'coco_2014_minival',
+                                    prefix + '_iter_70000',
+                                    'detection_results.pkl')
+
+        with open(results_file, 'rb') as f:
+            E = pickle.load(f)
+
+        precision = E.eval['precision'][0, :, 1, 0, 2]
+        recall = np.linspace(0, 1, 101)
+        
+        if lossfunc == 'l1':
+            ax.plot(recall, precision, color='k', label=label)
+        else:
+            ax.plot(recall, precision, label=label)
+
+    ax.set_xlabel('Recall')
+    ax.set_xlim(xmin=0, xmax=1)
+    ax.set_ylabel('Precision')
+    ax.set_ylim(ymin=0, ymax=1)
+    ax.grid()
+    ax.legend()
+    # fig.savefig(os.path.join('cs231n', 'plots', 'pr.png'))
+    fig.savefig(os.path.join('cs231n', 'big_plots', 'pr.eps'),
+                format='eps', dpi=1000)
+
+
+if __name__ == '__main__':
+    main()
